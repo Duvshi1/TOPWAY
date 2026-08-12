@@ -1,3 +1,15 @@
 {
-  "apps": []
+  "apps": [
+    {
+      "name": "RustDesk",
+      "url": "https://github.com/rustdesk/rustdesk/releases/download/1.4.9/rustdesk-1.4.9-aarch64-signed.apk",
+      "package": "com.carriez.flutter_hbb",
+      "versionCode": 2067,
+      "versionName": "1.4.9",
+      "size": 26871021,
+      "sha256": "285b4f0735c000e5155b9a6f087b57744e46c960f4332963f51add1804982102",
+      "category": "תמיכה מרחוק",
+      "notes": "לאחר ההתקנה: כלים ← הגדר שרת RustDesk, כדי לחבר לרילי של TOPWAY."
+    }
+  ]
 }
