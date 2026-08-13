@@ -10,6 +10,30 @@
       "sha256": "285b4f0735c000e5155b9a6f087b57744e46c960f4332963f51add1804982102",
       "category": "תמיכה מרחוק",
       "notes": "לאחר ההתקנה: כלים ← הגדר שרת RustDesk, כדי לחבר לרילי של TOPWAY."
+    },
+    {
+      "name": "Netflix",
+      "package": "com.netflix.mediaclient",
+      "store": true,
+      "category": "מדיה"
+    },
+    {
+      "name": "Spotify",
+      "package": "com.spotify.music",
+      "store": true,
+      "category": "מדיה"
+    },
+    {
+      "name": "YouTube",
+      "package": "com.google.android.youtube",
+      "store": true,
+      "category": "מדיה"
+    },
+    {
+      "name": "Waze",
+      "package": "com.waze",
+      "store": true,
+      "category": "ניווט"
     }
   ]
 }
