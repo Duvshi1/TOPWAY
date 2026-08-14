@@ -7,7 +7,7 @@
       "versionCode": 2,
       "versionName": "1.1",
       "size": 12559412,
-      "sha256": "f13ab95b40ebf35e064492739b47048d2b82226693e7e37cb4bf97373dbd9e5e",
+      "sha256": "4e531e84bcc676c2a0f1eaab7d821e4533b9f1b2d609e28724a5b18ef9f45e18",
       "notes": "TopwayTools self-update entry -- MainActivity.checkSelfUpdate() matches this by package name and installs it like any other app (silent on Tier 1). Not shown in the store list itself."
     },
     {
