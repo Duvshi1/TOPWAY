@@ -1,6 +1,16 @@
 {
   "apps": [
     {
+      "name": "TOPWAY Tools",
+      "url": "https://github.com/Duvshi1/TOPWAY/releases/download/tools/TopwayTools-v1.0.apk",
+      "package": "com.uzeb.topway.tools",
+      "versionCode": 2,
+      "versionName": "1.1",
+      "size": 12555540,
+      "sha256": "438bd9f07376143a7ed6d740026cb0787784a2eadf19e6625b6c526b15bdbaa3",
+      "notes": "TopwayTools self-update entry — MainActivity.checkSelfUpdate() matches this by package name and installs it like any other app (silent on Tier 1). Not shown in the store list itself."
+    },
+    {
       "name": "RustDesk",
       "url": "https://github.com/rustdesk/rustdesk/releases/download/1.4.9/rustdesk-1.4.9-aarch64-signed.apk",
       "package": "com.carriez.flutter_hbb",
@@ -8,6 +18,7 @@
       "versionName": "1.4.9",
       "size": 26871021,
       "sha256": "285b4f0735c000e5155b9a6f087b57744e46c960f4332963f51add1804982102",
+      "minSdk": 22,
       "category": "תמיכה מרחוק",
       "notes": "לאחר ההתקנה: כלים ← הגדר שרת RustDesk, כדי לחבר לרילי של TOPWAY."
     },
@@ -34,6 +45,30 @@
       "package": "com.waze",
       "store": true,
       "category": "ניווט"
+    },
+    {
+      "name": "All-FM",
+      "url": "https://github.com/Duvshi1/TOPWAY/releases/download/apps/All-FM.apk",
+      "package": "kaplandev.allfmplayer",
+      "versionCode": 115,
+      "versionName": "24.05.01",
+      "size": 16925470,
+      "sha256": "86d5ffed4097c74b76a144a94d007e583aedc24eb136795ff669314a5544cab0",
+      "minSdk": 24,
+      "icon": "icons/allfm.png",
+      "category": "רדיו"
+    },
+    {
+      "name": "DoFunPlay",
+      "url": "https://github.com/Duvshi1/TOPWAY/releases/download/apps/DoFunPlay.apk",
+      "package": "com.dofun.market",
+      "versionCode": 90,
+      "versionName": "V7.2.6.260627",
+      "size": 6424952,
+      "sha256": "18f5155d4795c99b920cf1214617d6ea30d455769ad7030783a28b4dac8e393a",
+      "minSdk": 19,
+      "icon": "icons/dofunplay.png",
+      "category": "בידור"
     }
   ]
 }
