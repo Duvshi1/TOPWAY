@@ -8,7 +8,7 @@
       "versionName": "1.1",
       "size": 12559412,
       "sha256": "f13ab95b40ebf35e064492739b47048d2b82226693e7e37cb4bf97373dbd9e5e",
-      "notes": "TopwayTools self-update entry — MainActivity.checkSelfUpdate() matches this by package name and installs it like any other app (silent on Tier 1). Not shown in the store list itself."
+      "notes": "TopwayTools self-update entry -- MainActivity.checkSelfUpdate() matches this by package name and installs it like any other app (silent on Tier 1). Not shown in the store list itself."
     },
     {
       "name": "RustDesk",
