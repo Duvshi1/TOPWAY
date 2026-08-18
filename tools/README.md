@@ -13,6 +13,17 @@ straight from the APK — you never edit `manifest.json` by hand.
 
 Devices pick up the change within a few minutes (whenever they next open TOPWAY Tools).
 
+## Prefer a window? (GUI)
+
+```
+python publish_gui.py
+```
+
+A small window: click **Browse…**, pick an APK, and its package/version/size are read for
+you. For a new app, type a display name and pick a category; updating an existing app keeps
+both. **Publish** uploads, updates the manifest, pushes, and purges the CDN with a live log.
+Same engine as the command line, just clickable.
+
 ## Use it
 
 **New app** (asks for a display name + category if you don't pass them):
