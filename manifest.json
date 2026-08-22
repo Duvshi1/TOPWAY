@@ -4,10 +4,10 @@
       "name": "TOPWAY Tools",
       "url": "https://github.com/Duvshi1/TOPWAY/releases/download/apps/com.uzeb.topway.tools.apk",
       "package": "com.uzeb.topway.tools",
-      "versionCode": 32,
-      "versionName": "2.6.6",
-      "size": 12782381,
-      "sha256": "144e9326bdf8d7bcf331524828f1ebf68ef0421bad828b3e7f7f06be42b2354a",
+      "versionCode": 33,
+      "versionName": "2.6.7",
+      "size": 12781789,
+      "sha256": "8140817d431f73946118495819b2d7636594b51a47f69fc7a90c9ee249c20dda",
       "notes": "TopwayTools self-update entry -- MainActivity.checkSelfUpdate() matches this by package name and installs it like any other app (silent on Tier 1). Not shown in the store list itself."
     },
     {
