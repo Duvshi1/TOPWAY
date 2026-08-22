@@ -67,4 +67,6 @@ Drop a PNG in `../icons/` (commit it), then pass `--icon icons/myapp.png`. Keep 
   world-downloadable. Keep licensed/proprietary apps out of it unless you're certain your
   distribution rights cover public re-hosting.
 - Requires: Python 3, Android SDK `build-tools` (for `aapt2`), and `git`. The GitHub token is
-  read from `C:\ArcFox\provisioner\appprep\github.secret`.
+  read from a local file whose path is set by `TOKEN_FILE` in `publish_app.py` — whoever runs
+  this tool already knows where their own token lives; that path isn't repeated here since this
+  repo (and therefore this README) is public.

@@ -104,7 +104,10 @@ def gh_request(url, method="GET", data=None, content_type=None):
     if content_type:
         req.add_header("Content-Type", content_type)
     with urllib.request.urlopen(req) as r:
-        return json.loads(r.read().decode())
+        body = r.read().decode()
+        # DELETE (and some other calls) return 204 No Content -- nothing to parse, and the
+        # caller (delete_existing_asset) doesn't use a return value anyway.
+        return json.loads(body) if body else None
 
 
 def delete_existing_asset(asset_name):
@@ -119,20 +122,67 @@ def delete_existing_asset(asset_name):
 
 
 def upload_asset(apk, asset_name):
-    delete_existing_asset(asset_name)
+    """Upload first, delete second, rename third.
+
+    A release can't hold two assets with the same name, which is why this used to delete
+    before uploading -- but that leaves the live manifest pointing at a dead URL if the
+    upload then fails, breaking that app for the whole fleet. Uploading under a temporary
+    name first means every failure path leaves the OLD asset intact and still serving.
+    """
+    staging_name = asset_name + ".uploading"
+
+    # A leftover staging asset from a previous interrupted run would collide; clear it.
+    # This one IS safe to delete first -- nothing in the manifest ever points at it.
+    delete_existing_asset(staging_name)
+
     url = "https://uploads.github.com/repos/%s/%s/releases/%s/assets?name=%s" \
-          % (GH_OWNER, GH_REPO, GH_RELEASE_ID, asset_name)
+          % (GH_OWNER, GH_REPO, GH_RELEASE_ID, staging_name)
     with open(apk, "rb") as f:
         data = f.read()
     res = gh_request(url, method="POST", data=data,
                      content_type="application/vnd.android.package-archive")
+    asset_id = res["id"]
+
+    # Confirm the published asset actually resolves before the manifest starts pointing at it.
+    req = urllib.request.Request(res["browser_download_url"], method="HEAD")
+    with urllib.request.urlopen(req) as r:
+        if r.status != 200:
+            die("published asset returned HTTP %d -- manifest NOT updated" % r.status)
+
+    # Upload confirmed. Only now is it safe to remove the old asset and take its name.
+    delete_existing_asset(asset_name)
+    res = gh_request("https://api.github.com/repos/%s/%s/releases/assets/%d"
+                     % (GH_OWNER, GH_REPO, asset_id),
+                     method="PATCH",
+                     data=json.dumps({"name": asset_name}).encode(),
+                     content_type="application/json")
     return res["browser_download_url"]
 
 
-def run(cmd, cwd=None):
-    r = subprocess.run(cmd, cwd=cwd, capture_output=True, text=True, encoding="utf-8", errors="replace")
+def redact(cmd):
+    """Never let a credential reach a log, whatever a future caller does."""
+    tok = None
+    try:
+        tok = token()
+    except Exception:
+        pass
+    out = []
+    for a in cmd:
+        if tok and tok in a:
+            a = a.replace(tok, "***REDACTED***")
+        out.append(re.sub(r"://[^/@\s]+:[^/@\s]+@", "://***:***@", a))
+    return out
+
+
+def run(cmd, cwd=None, env_extra=None):
+    env = None
+    if env_extra:
+        env = os.environ.copy()
+        env.update(env_extra)
+    r = subprocess.run(cmd, cwd=cwd, capture_output=True, text=True,
+                       encoding="utf-8", errors="replace", env=env)
     if r.returncode != 0:
-        die("command failed: %s\n%s\n%s" % (" ".join(cmd), r.stdout, r.stderr))
+        die("command failed: %s\n%s\n%s" % (" ".join(redact(cmd)), r.stdout, r.stderr))
     return r.stdout.strip()
 
 
@@ -220,8 +270,13 @@ def main():
     run(["git", "commit", "-m",
          "%s %s %s (versionCode %d)" % (action, info["package"], info["versionName"], info["versionCode"])],
         cwd=REPO)
-    push_url = "https://%s:%s@github.com/%s/%s.git" % (GH_OWNER, token(), GH_OWNER, GH_REPO)
-    run(["git", "push", push_url, "main"], cwd=REPO)
+    # The token is passed via git's credential helper on stdin, never on the command line --
+    # argv is visible in the process table and gets echoed by run()'s own error path.
+    push_url = "https://github.com/%s/%s.git" % (GH_OWNER, GH_REPO)
+    run(["git", "-c", "credential.helper=", "-c", "credential.helper=!f() { "
+         "echo username=%s; echo password=$GH_TOKEN; }; f" % GH_OWNER,
+         "push", push_url, "main"],
+        cwd=REPO, env_extra={"GH_TOKEN": token()})
 
     print("Purging jsDelivr cache...")
     try:
